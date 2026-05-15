@@ -319,7 +319,8 @@ def build_context(hadiths):
         lines = [ref]
         if h.get("arabic"):
             lines.append(f"Arabic: {h['arabic']}")
-        lines.append(f"English: {h['english']}")
+        if h.get("english"):
+            lines.append(f"English: {h['english']}")
         if h.get("urdu"):
             lines.append(f"Urdu: {h['urdu']}")
         parts.append("\n".join(lines))
@@ -547,9 +548,10 @@ def main():
                 results = []
 
         if results and groq_client:
+            context = build_context(results)
             with st.spinner("🤖 Generating scholarly answer…"):
                 try:
-                    answer = generate_answer(groq_client, run_query, build_context(results))
+                    answer = generate_answer(groq_client, run_query, context)
                     st.session_state["_last_answer"] = answer
                 except Exception as e:
                     st.session_state["_last_answer"] = None
