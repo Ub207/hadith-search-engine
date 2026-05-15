@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pip install *)",
+      "Bash(python *)",
+      "Bash(PYTHONIOENCODING=utf-8 python *)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "PowerShell(cd C:\\\\Users\\\\Hp\\\\hadith-search-engine; $env:PYTHONIOENCODING=\"utf-8\"; python prepare_data.py 2>&1)"
+    ]
+  }
+}

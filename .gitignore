@@ -8,3 +8,8 @@ dist/
 build/
 .venv/
 venv/
+
+# Auto-generated data — run prepare_data.py to regenerate
+data/
+hadith_data/
+faiss_index/
