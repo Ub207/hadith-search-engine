@@ -18,6 +18,45 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DATA_DIR = Path("data")
+HF_REPO_ID = "Ub207/hadith-search-engine-data"   # HuggingFace dataset repo
+HF_FILES   = ["hadith_index.faiss", "hadith_metadata.pkl"]
+
+def _ensure_data():
+    """Download pre-built index + metadata from HuggingFace Hub if not present locally."""
+    missing = [f for f in HF_FILES if not (DATA_DIR / f).exists()]
+    if not missing:
+        return
+    DATA_DIR.mkdir(exist_ok=True)
+    try:
+        from huggingface_hub import hf_hub_download
+    except ImportError:
+        st.error("Install huggingface_hub: `pip install huggingface_hub`")
+        st.stop()
+
+    st.info("⏳ First launch: downloading Hadith database (~180 MB). This takes ~2 minutes…")
+    prog = st.progress(0, text="Starting download…")
+    for i, fname in enumerate(missing):
+        prog.progress((i) / len(missing), text=f"Downloading {fname}…")
+        try:
+            path = hf_hub_download(
+                repo_id=HF_REPO_ID,
+                filename=fname,
+                repo_type="dataset",
+                local_dir=str(DATA_DIR),
+                local_dir_use_symlinks=False,
+            )
+            # hf_hub_download may nest files — move to DATA_DIR root if needed
+            dest = DATA_DIR / fname
+            src  = Path(path)
+            if src != dest:
+                import shutil
+                shutil.move(str(src), str(dest))
+        except Exception as e:
+            st.error(f"Download failed for **{fname}**: `{e}`\n\n"
+                     "Make sure the HuggingFace dataset repo exists and files are uploaded.")
+            st.stop()
+    prog.progress(1.0, text="Download complete ✅")
+    st.rerun()
 
 # ── Page config ────────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -433,10 +472,8 @@ def render_hadith_card(h):
 
 # ── Main ───────────────────────────────────────────────────────────────────────
 def main():
-    # Guard: data must exist
-    if not (DATA_DIR / "hadith_index.faiss").exists():
-        st.error("**Hadith database not found.** Run: `python prepare_data.py`")
-        st.stop()
+    # Ensure data files exist (downloads from HuggingFace on first run)
+    _ensure_data()
 
     # Load resources
     try:
