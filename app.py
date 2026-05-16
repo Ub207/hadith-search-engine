@@ -30,14 +30,22 @@ st.set_page_config(
 # ── CSS ────────────────────────────────────────────────────────────────────────
 st.markdown(
     """
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
+""",
+    unsafe_allow_html=True,
+)
+st.markdown(
+    """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Amiri:ital@0;1&family=Playfair+Display:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap');
 
 .block-container { padding-top: 0.5rem; max-width: 1200px; }
 section[data-testid="stSidebar"] { min-width: 290px; }
 
 .app-banner {
-    background: linear-gradient(135deg, #0A2E6F 0%, #0D47A1 55%, #1565C0 100%);
+    background: linear-gradient(135deg, #1565C0 0%, #1976D2 55%, #2196F3 100%);
     border-bottom: 3px solid #FFC107;
     padding: 1.1rem 2rem 0.9rem;
     margin: -0.5rem -1rem 1.4rem -1rem;
@@ -52,23 +60,27 @@ section[data-testid="stSidebar"] { min-width: 290px; }
     margin: 0.25rem 0 0.1rem;
     text-shadow: 0 2px 10px rgba(0,0,0,0.45);
 }
-.banner-subtitle { color: #90CAF9; font-size: 0.88rem; margin-bottom: 0.25rem; }
+.banner-subtitle { color: #BBDEFB; font-size: 0.88rem; margin-bottom: 0.25rem; }
 .banner-byline { color: #FFC107; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.4px; }
 .banner-byline a { color: #FFC107; text-decoration: none; }
 .banner-byline a:hover { text-decoration: underline; color: #FFD54F; }
 .bismillah-banner {
-    font-family: 'Amiri', 'Traditional Arabic', serif;
-    font-size: 1.7rem;
+    font-family: 'Amiri', 'Traditional Arabic', 'Noto Naskh Arabic', serif;
+    font-size: 2rem;
+    font-weight: 700;
     color: #FFD54F;
     direction: rtl;
+    unicode-bidi: bidi-override;
     display: block;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.3rem;
     text-shadow: 0 1px 5px rgba(0,0,0,0.35);
+    letter-spacing: 2px;
+    line-height: 1.8;
 }
 
 .search-wrap {
-    background: rgba(13,71,161,0.14);
-    border: 1.5px solid #1565C0;
+    background: rgba(25,118,210,0.08);
+    border: 1.5px solid #2196F3;
     border-radius: 12px;
     padding: 1.1rem 1.4rem 0.9rem;
     margin-bottom: 1rem;
@@ -93,20 +105,20 @@ section[data-testid="stSidebar"] { min-width: 290px; }
     border-bottom: none;
 }
 .ai-body {
-    background: linear-gradient(145deg, #0A1929, #0D2137);
+    background: linear-gradient(145deg, #0D2744, #122D4F);
     border: 1px solid #FFC107;
     border-top: none;
     border-radius: 0 0 8px 8px;
     padding: 1.1rem 1.3rem 1rem;
     margin-bottom: 1.4rem;
-    color: #E3F2FD;
+    color: #E8EAF6;
     line-height: 1.85;
     font-size: 0.94rem;
 }
 
 .hadith-card {
-    background: linear-gradient(160deg, #0B1C3D 0%, #0A2156 100%);
-    border: 1px solid #1565C0;
+    background: linear-gradient(160deg, #102040 0%, #152850 100%);
+    border: 1px solid #2196F3;
     border-left: 4px solid #FFC107;
     border-radius: 10px;
     padding: 1.1rem 1.3rem;
@@ -163,7 +175,7 @@ section[data-testid="stSidebar"] { min-width: 290px; }
 .arabic-block {
     direction:rtl; font-family:'Amiri','Traditional Arabic',serif;
     font-size:1.4rem; color:#FFD54F; line-height:2.3; text-align:right;
-    background:rgba(13,71,161,0.1); border-radius:6px;
+    background:rgba(25,118,210,0.08); border-radius:6px;
     padding:0.6rem 0.9rem; margin:0.3rem 0 0.7rem;
 }
 .narrator-strip {
@@ -171,11 +183,11 @@ section[data-testid="stSidebar"] { min-width: 290px; }
     padding-left:0.65rem; margin:0.2rem 0 0.45rem;
     font-size:0.83rem; line-height:1.6;
 }
-.english-block { color:#E3F2FD; line-height:1.8; font-size:0.92rem; margin-bottom:0.5rem; }
+.english-block { color:#E8EAF6; line-height:1.8; font-size:0.92rem; margin-bottom:0.5rem; }
 .urdu-block {
     direction:rtl; font-family:'Amiri','Noto Nastaliq Urdu',serif;
     font-size:1.05rem; color:#B3E5FC; line-height:2.2; text-align:right;
-    background:rgba(13,71,161,0.07); border-radius:6px;
+    background:rgba(25,118,210,0.05); border-radius:6px;
     padding:0.4rem 0.8rem; margin:0.3rem 0 0.4rem;
 }
 
@@ -185,7 +197,7 @@ section[data-testid="stSidebar"] { min-width: 290px; }
     border-bottom:1px solid #1565C0; padding-bottom:0.3rem; margin-bottom:0.5rem;
 }
 .stat-card {
-    background:rgba(13,71,161,0.18); border:1px solid #1565C0;
+    background:rgba(25,118,210,0.1); border:1px solid #2196F3;
     border-radius:8px; padding:0.5rem 0.7rem; margin-bottom:0.65rem; text-align:center;
 }
 .stat-num { font-size:1.5rem; font-weight:700; color:#FFC107; display:block; line-height:1.2; }
@@ -205,7 +217,7 @@ section[data-testid="stSidebar"] { min-width: 290px; }
 }
 
 .footer-wrap {
-    background:rgba(13,71,161,0.10); border:1px solid #1A237E;
+    background:rgba(25,118,210,0.06); border:1px solid #1565C0;
     border-radius:10px; padding:1rem 1.5rem; text-align:center; margin-top:2rem;
 }
 .footer-title { color:#90CAF9; font-size:0.85rem; font-weight:700; margin-bottom:0.2rem; }
@@ -248,16 +260,33 @@ You are a Hadith AI Assistant created by Ubaid ur Rehman, an Aalim (Islamic Scho
 
 Your role:
 - Answer questions about Hadith using ONLY the provided hadith context
-- Always cite the exact collection name, book name, and hadith number
+- Always cite the exact collection name (e.g., Sahih Bukhari), book name, and hadith number
 - Mention the hadith grade (Sahih/Hasan/Daif) when available
+- Include the narrator (sanad) when present in the text
 - Always write the Prophet's name as: Prophet Muhammad ﷺ
 - Be respectful and scholarly in tone
 - Answer in English or Urdu based on the user's language
-- If the topic is not covered by the provided hadith, say so honestly
+- If asked about topics not in the provided hadith, say so honestly
+
+CRITICAL — Arabic Matan (متن عربی):
+- You MUST include the original Arabic text (matan) of each relevant hadith in your answer
+- Format Arabic text on its own line, right-aligned, like this:
+
+  **Arabic (متن):**
+  «حديث كا عربی متن یہاں»
+
+- This is mandatory — every hadith reference in your answer MUST show its Arabic matan
+- The Arabic text is provided in the context under "Arabic:" — copy it exactly as given
+- Place the Arabic matan BEFORE the English/Urdu translation
 
 Citation format: [Collection — Book Name — Hadith #number — Grade]
 
-IMPORTANT: Never fabricate hadith or references. Only use the provided context.\
+IMPORTANT:
+- Never fabricate hadith or references
+- Always ground answers in provided context only
+- If multiple hadith on a topic, present them organized by collection
+- Clearly note if a hadith is Daif (weak)
+- ALWAYS include Arabic matan — this is non-negotiable\
 """
 
 
