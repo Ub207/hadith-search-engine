@@ -17,7 +17,48 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-DATA_DIR = Path("data")
+DATA_DIR   = Path("data")
+HF_REPO_ID = "Ub207/hadith-search-engine-data"   # updated by upload_to_hf.py after upload
+
+_HF_REQUIRED = [
+    "hadith_index.faiss",
+    "hadith_metadata.pkl",
+    "collections_meta.json",
+]
+
+
+def ensure_data_files() -> bool:
+    """Return True if all data files are present. On cloud, download from HuggingFace."""
+    if all((DATA_DIR / f).exists() for f in _HF_REQUIRED):
+        return True
+
+    DATA_DIR.mkdir(exist_ok=True)
+    try:
+        from huggingface_hub import hf_hub_download
+    except ImportError:
+        st.error("Run `pip install huggingface_hub` then restart the app.")
+        return False
+
+    for filename in _HF_REQUIRED:
+        if (DATA_DIR / filename).exists():
+            continue
+        st.info(f"⏳ Downloading **{filename}** from HuggingFace…")
+        try:
+            hf_hub_download(
+                repo_id=HF_REPO_ID,
+                filename=filename,
+                repo_type="dataset",
+                local_dir=str(DATA_DIR),
+                local_dir_use_symlinks=False,
+            )
+        except Exception as exc:
+            st.error(
+                f"Download failed for **{filename}**.\n\n`{exc}`\n\n"
+                f"Make sure the dataset `{HF_REPO_ID}` is public and the files are uploaded."
+            )
+            return False
+    return True
+
 
 # ── Page config ────────────────────────────────────────────────────────────────
 st.set_page_config(
@@ -433,10 +474,12 @@ def render_hadith_card(h):
 
 # ── Main ───────────────────────────────────────────────────────────────────────
 def main():
-    # Guard: data must exist
+    # Guard: ensure data files present (local or download from HuggingFace)
     if not (DATA_DIR / "hadith_index.faiss").exists():
-        st.error("**Hadith database not found.** Run: `python prepare_data.py`")
-        st.stop()
+        with st.spinner("⏳ First launch: downloading Hadith database (~180 MB) — ~2 minutes…"):
+            if not ensure_data_files():
+                st.stop()
+        st.rerun()
 
     # Load resources
     try:
