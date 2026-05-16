@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DATA_DIR   = Path("data")
-HF_REPO_ID = "Ub207/hadith-search-engine-data"   # updated by upload_to_hf.py after upload
+HF_REPO_ID = "ubaid-ai/hadith-search-engine-data"   # updated by upload_to_hf.py after upload
 
 _HF_REQUIRED = [
     "hadith_index.faiss",
