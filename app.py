@@ -486,7 +486,7 @@ def translate_query_to_english(query: str, client) -> tuple[str, bool]:
 
     try:
         resp = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model="llama-3.1-8b-instant",
             messages=[
                 {"role": "system", "content": TRANSLATE_SYSTEM_PROMPT},
                 {"role": "user", "content": query},
@@ -553,7 +553,7 @@ def build_context(hadiths):
 
 def generate_answer(client, query, context):
     resp = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
+        model="llama-3.1-8b-instant",
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": f"Hadith Context:\n\n{context}\n\nQuestion: {query}"},
@@ -798,7 +798,14 @@ def main():
                     st.session_state["_last_answer"] = answer
                 except Exception as e:
                     st.session_state["_last_answer"] = None
-                    st.error(f"**Groq API error:** `{e}`")
+                    err_str = str(e)
+                    if "429" in err_str or "rate_limit_exceeded" in err_str:
+                        import re
+                        wait_match = re.search(r"try again in (\d+m[\d.]+s|\d+[\d.]+s)", err_str)
+                        wait_msg = f" Try again in **{wait_match.group(1)}**." if wait_match else " Please wait a few minutes and try again."
+                        st.warning(f"⏳ **Groq daily token limit reached.**{wait_msg}\n\nThe hadiths above are still shown — only the AI answer is unavailable right now.")
+                    else:
+                        st.error(f"**Groq API error:** `{e}`")
         else:
             if not groq_client and results:
                 st.warning("⚠️ GROQ_API_KEY not set. Showing source hadith only.")

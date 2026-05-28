@@ -7,7 +7,24 @@
       "Bash(git init *)",
       "Bash(git add *)",
       "Bash(git commit *)",
-      "PowerShell(cd C:\\\\Users\\\\Hp\\\\hadith-search-engine; $env:PYTHONIOENCODING=\"utf-8\"; python prepare_data.py 2>&1)"
+      "PowerShell(cd C:\\\\Users\\\\Hp\\\\hadith-search-engine; $env:PYTHONIOENCODING=\"utf-8\"; python prepare_data.py 2>&1)",
+      "Bash(Get-Content \"D:\\\\ClaudeInstall\\\\claude\\\\C--Users-Hp-hadith-search-engine\\\\e2b8dc3d-9997-4041-8488-489dfe1c9872\\\\tasks\\\\bfp18jxxm.output\" -Wait)",
+      "Bash(Select-String --line-buffered \"Parsed|Encoded|Done|Total|FAILED|Error|Saving|Building|faiss\")",
+      "Bash(Get-Content *)",
+      "Bash(wmic process *)",
+      "Bash(taskkill /PID 8492 /F)",
+      "Bash(taskkill /PID 19620 /F)",
+      "Bash(python prepare_data.py)",
+      "Bash(echo \"Started PID: $!\")",
+      "Bash(tee /tmp/prep_out.txt)",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(taskkill /IM python.exe /F /FI \"WINDOWTITLE eq prepare_data*\")",
+      "Bash(grep -v \"^$\")",
+      "Bash(echo \"EXIT_CODE:$?\")",
+      "Bash(git push *)",
+      "PowerShell(C:\\\\Users\\\\Hp\\\\hadith-search-engine\\\\venv\\\\Scripts\\\\pip.exe list 2>&1)",
+      "PowerShell(C:\\\\Users\\\\Hp\\\\hadith-search-engine\\\\venv\\\\Scripts\\\\pip.exe cache purge)",
+      "PowerShell(& \"C:\\\\Users\\\\Hp\\\\hadith-search-engine\\\\venv\\\\Scripts\\\\python.exe\" -c \"import faiss; import pickle; from pathlib import Path; p=Path\\('C:/Users/Hp/hadith-search-engine/data'\\); print\\('faiss exists:', \\(p/'hadith_index.faiss'\\).exists\\(\\)\\); print\\('pkl exists:', \\(p/'hadith_metadata.pkl'\\).exists\\(\\)\\); print\\('json exists:', \\(p/'collections_meta.json'\\).exists\\(\\)\\)\")"
     ]
   }
 }

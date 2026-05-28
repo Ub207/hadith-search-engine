@@ -1,10 +1,12 @@
 [theme]
-primaryColor = "#3949AB"
-backgroundColor = "#0D1B2A"
-secondaryBackgroundColor = "#1A237E"
-textColor = "#E3F2FD"
+base = "light"
+primaryColor = "#059669"
+backgroundColor = "#FAFAFA"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#1F2937"
 font = "sans serif"
 
 [server]
 maxUploadSize = 200
 headless = true
+fileWatcherType = "none"
