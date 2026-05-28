@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 DATA_DIR   = Path("data")
-HF_REPO_ID = "ubaid-ai/hadith-search-engine-data"   # updated by upload_to_hf.py after upload
+HF_REPO_ID = "ubaid-ai/hadith-search-engine-data"
 
 _HF_REQUIRED = [
     "hadith_index.faiss",
@@ -28,7 +28,6 @@ _HF_REQUIRED = [
 
 
 def ensure_data_files() -> bool:
-    """Return True if all data files are present. On cloud, download from HuggingFace."""
     if all((DATA_DIR / f).exists() for f in _HF_REQUIRED):
         return True
 
@@ -80,195 +79,293 @@ st.markdown(
     """
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-.block-container { padding-top: 0.5rem; max-width: 1200px; }
-section[data-testid="stSidebar"] { min-width: 290px; }
+/* ─── GLOBAL LIGHT THEME ─── */
+.stApp,
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+[data-testid="stHeader"] {
+    background-color: #FAFAFA !important;
+    font-family: 'Inter', system-ui, sans-serif !important;
+}
+.block-container {
+    padding-top: 0 !important;
+    max-width: 1200px !important;
+    background: #FAFAFA !important;
+}
 
+/* ─── SIDEBAR ─── */
+section[data-testid="stSidebar"],
+section[data-testid="stSidebar"] > div,
+section[data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
+    background: #FFFFFF !important;
+    border-right: 1px solid #E5E7EB !important;
+    min-width: 280px !important;
+}
+section[data-testid="stSidebar"] p,
+section[data-testid="stSidebar"] span,
+section[data-testid="stSidebar"] label,
+section[data-testid="stSidebar"] div {
+    color: #374151 !important;
+}
+
+/* ─── BANNER ─── */
 .app-banner {
-    background: linear-gradient(135deg, #1565C0 0%, #1976D2 55%, #2196F3 100%);
-    border-bottom: 3px solid #FFC107;
-    padding: 1.1rem 2rem 0.9rem;
-    margin: -0.5rem -1rem 1.4rem -1rem;
+    background: linear-gradient(160deg, #ECFDF5 0%, #F0FDF4 60%, #FFFFFF 100%);
+    border-bottom: 3px solid #059669;
+    padding: 2rem 2rem 1.6rem;
+    margin: -1rem -1rem 2rem -1rem;
     text-align: center;
 }
-.banner-title {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 2.1rem;
-    font-weight: 700;
-    color: #FFF9C4;
-    letter-spacing: 0.8px;
-    margin: 0.25rem 0 0.1rem;
-    text-shadow: 0 2px 10px rgba(0,0,0,0.45);
-}
-.banner-subtitle { color: #BBDEFB; font-size: 0.88rem; margin-bottom: 0.25rem; }
-.banner-byline { color: #FFC107; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.4px; }
-.banner-byline a { color: #FFC107; text-decoration: none; }
-.banner-byline a:hover { text-decoration: underline; color: #FFD54F; }
 .bismillah-banner {
     font-family: 'Amiri', 'Traditional Arabic', 'Noto Naskh Arabic', serif;
-    font-size: 2rem;
+    font-size: 2.1rem;
     font-weight: 700;
-    color: #FFD54F;
+    color: #047857;
     direction: rtl;
     unicode-bidi: bidi-override;
     display: block;
-    margin-bottom: 0.3rem;
-    text-shadow: 0 1px 5px rgba(0,0,0,0.35);
-    letter-spacing: 2px;
+    margin-bottom: 0.4rem;
     line-height: 1.8;
 }
+.banner-title {
+    font-family: 'Inter', system-ui, sans-serif;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: #1F2937;
+    letter-spacing: -0.5px;
+    margin: 0.2rem 0 0.3rem;
+}
+.banner-subtitle { color: #6B7280; font-size: 0.93rem; margin-bottom: 0.3rem; }
+.banner-byline { color: #059669; font-size: 0.82rem; font-weight: 600; letter-spacing: 0.3px; }
+.banner-byline a { color: #059669; text-decoration: none; }
+.banner-byline a:hover { text-decoration: underline; color: #047857; }
 
-.search-wrap {
-    background: rgba(25,118,210,0.08);
-    border: 1.5px solid #2196F3;
-    border-radius: 12px;
-    padding: 1.1rem 1.4rem 0.9rem;
+/* ─── TRANSLATION NOTICE ─── */
+.translation-notice {
+    background: #FFF7ED;
+    border: 1px solid #FED7AA;
+    border-left: 4px solid #F97316;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
     margin-bottom: 1rem;
+    font-size: 0.83rem;
+    color: #9A3412;
+}
+
+/* ─── SEARCH BOX ─── */
+.search-wrap {
+    background: #FFFFFF;
+    border: 1.5px solid #D1D5DB;
+    border-radius: 16px;
+    padding: 1.5rem 1.8rem 1.2rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
 }
 .search-label {
-    color: #FFC107;
-    font-size: 0.95rem;
+    color: #1F2937;
+    font-size: 1rem;
     font-weight: 700;
-    margin-bottom: 0.45rem;
+    margin-bottom: 0.55rem;
 }
 
+/* ─── AI ANSWER BOX ─── */
 .ai-header {
-    background: linear-gradient(90deg, #0D47A1, #1565C0);
-    border-radius: 8px 8px 0 0;
-    padding: 0.5rem 1rem;
-    color: #FFC107;
+    background: #ECFDF5;
+    border-radius: 10px 10px 0 0;
+    padding: 0.65rem 1.2rem;
+    color: #065F46;
     font-weight: 700;
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
-    border: 1px solid #FFC107;
+    letter-spacing: 1.2px;
+    border: 1.5px solid #059669;
     border-bottom: none;
 }
 .ai-body {
-    background: linear-gradient(145deg, #0D2744, #122D4F);
-    border: 1px solid #FFC107;
+    background: #FFFFFF;
+    border: 1.5px solid #059669;
     border-top: none;
-    border-radius: 0 0 8px 8px;
-    padding: 1.1rem 1.3rem 1rem;
-    margin-bottom: 1.4rem;
-    color: #E8EAF6;
+    border-radius: 0 0 10px 10px;
+    padding: 1.2rem 1.5rem 1.1rem;
+    margin-bottom: 1.8rem;
+    color: #1F2937 !important;
     line-height: 1.85;
     font-size: 0.94rem;
 }
+.ai-body p, .ai-body li { color: #1F2937 !important; }
+.ai-body strong { color: #065F46 !important; }
 
+/* ─── HADITH CARDS ─── */
 .hadith-card {
-    background: linear-gradient(160deg, #102040 0%, #152850 100%);
-    border: 1px solid #2196F3;
-    border-left: 4px solid #FFC107;
-    border-radius: 10px;
-    padding: 1.1rem 1.3rem;
+    background: #FFFFFF;
+    border: 1px solid #E5E7EB;
+    border-left: 4px solid #059669;
+    border-radius: 12px;
+    padding: 1.2rem 1.4rem;
     margin-bottom: 1rem;
-    box-shadow: 0 3px 14px rgba(0,0,0,0.35);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s ease;
+}
+.hadith-card:hover {
+    box-shadow: 0 6px 20px rgba(5,150,105,0.1);
 }
 .hcard-header {
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem;
     align-items: center;
-    border-bottom: 1px solid rgba(21,101,192,0.5);
-    padding-bottom: 0.55rem;
-    margin-bottom: 0.75rem;
+    border-bottom: 1px solid #F3F4F6;
+    padding-bottom: 0.6rem;
+    margin-bottom: 0.8rem;
 }
 
-.badge-bukhari  { background:#1B5E20; color:#A5D6A7; border:1px solid #388E3C; }
-.badge-muslim   { background:#0D47A1; color:#90CAF9; border:1px solid #1565C0; }
-.badge-abudawud { background:#4A148C; color:#CE93D8; border:1px solid #7B1FA2; }
-.badge-tirmidhi { background:#E65100; color:#FFCC80; border:1px solid #F57C00; }
-.badge-nasai    { background:#004D40; color:#80CBC4; border:1px solid #00695C; }
-.badge-ibnmajah { background:#B71C1C; color:#FFCDD2; border:1px solid #C62828; }
-.badge-malik    { background:#4E342E; color:#BCAAA4; border:1px solid #6D4C41; }
-.badge-default  { background:#0D47A1; color:#FFC107; border:1px solid #FFC107; }
+/* ─── COLLECTION BADGES ─── */
+.badge-bukhari  { background:#D1FAE5; color:#065F46; border:1px solid #6EE7B7; }
+.badge-muslim   { background:#DBEAFE; color:#1E3A8A; border:1px solid #93C5FD; }
+.badge-abudawud { background:#EDE9FE; color:#4C1D95; border:1px solid #C4B5FD; }
+.badge-tirmidhi { background:#FEF3C7; color:#92400E; border:1px solid #FCD34D; }
+.badge-nasai    { background:#CCFBF1; color:#134E4A; border:1px solid #5EEAD4; }
+.badge-ibnmajah { background:#FEE2E2; color:#7F1D1D; border:1px solid #FCA5A5; }
+.badge-malik    { background:#FDF4FF; color:#581C87; border:1px solid #D8B4FE; }
+.badge-default  { background:#D1FAE5; color:#065F46; border:1px solid #059669; }
 
 .badge-collection {
     font-size: 0.75rem; font-weight: 700;
-    padding: 0.18rem 0.65rem; border-radius: 20px; white-space: nowrap;
+    padding: 0.2rem 0.7rem; border-radius: 20px; white-space: nowrap;
 }
-.badge-ref { color: #90CAF9; font-size: 0.76rem; font-weight: 600; white-space: nowrap; }
+.badge-ref { color: #6B7280; font-size: 0.78rem; font-weight: 600; white-space: nowrap; }
 
+/* ─── GRADE BADGES ─── */
 .grade-s {
-    background:rgba(46,125,50,0.22); color:#81C784; border:1px solid #388E3C;
-    font-size:0.7rem; font-weight:700; padding:0.13rem 0.5rem; border-radius:12px; white-space:nowrap;
+    background:#D1FAE5; color:#065F46; border:1px solid #6EE7B7;
+    font-size:0.7rem; font-weight:700; padding:0.15rem 0.55rem; border-radius:12px; white-space:nowrap;
 }
 .grade-h {
-    background:rgba(245,127,23,0.22); color:#FFB74D; border:1px solid #EF6C00;
-    font-size:0.7rem; font-weight:700; padding:0.13rem 0.5rem; border-radius:12px; white-space:nowrap;
+    background:#FEF3C7; color:#92400E; border:1px solid #FCD34D;
+    font-size:0.7rem; font-weight:700; padding:0.15rem 0.55rem; border-radius:12px; white-space:nowrap;
 }
 .grade-d {
-    background:rgba(183,28,28,0.22); color:#EF9A9A; border:1px solid #C62828;
-    font-size:0.7rem; font-weight:700; padding:0.13rem 0.5rem; border-radius:12px; white-space:nowrap;
+    background:#FEE2E2; color:#7F1D1D; border:1px solid #FCA5A5;
+    font-size:0.7rem; font-weight:700; padding:0.15rem 0.55rem; border-radius:12px; white-space:nowrap;
 }
 .grade-n {
-    background:rgba(69,90,100,0.22); color:#90A4AE; border:1px solid #546E7A;
-    font-size:0.7rem; padding:0.13rem 0.5rem; border-radius:12px; white-space:nowrap;
+    background:#F3F4F6; color:#6B7280; border:1px solid #D1D5DB;
+    font-size:0.7rem; padding:0.15rem 0.55rem; border-radius:12px; white-space:nowrap;
 }
-.graders-note { color:#546E7A; font-size:0.68rem; }
+.graders-note { color: #9CA3AF; font-size: 0.68rem; }
 
+/* ─── LANGUAGE BLOCKS ─── */
 .lang-label {
-    font-size:0.7rem; font-weight:700; color:#FFC107;
-    text-transform:uppercase; letter-spacing:1px; margin:0.5rem 0 0.2rem;
+    font-size:0.72rem; font-weight:700; color:#059669;
+    text-transform:uppercase; letter-spacing:1.1px; margin:0.55rem 0 0.25rem;
 }
 .arabic-block {
-    direction:rtl; font-family:'Amiri','Traditional Arabic',serif;
-    font-size:1.4rem; color:#FFD54F; line-height:2.3; text-align:right;
-    background:rgba(25,118,210,0.08); border-radius:6px;
-    padding:0.6rem 0.9rem; margin:0.3rem 0 0.7rem;
+    direction:rtl; font-family:'Amiri','Traditional Arabic','Noto Naskh Arabic',serif;
+    font-size:1.45rem; color:#1F2937; line-height:2.3; text-align:right;
+    background:#F0FDF4; border-left:3px solid #059669; border-radius:8px;
+    padding:0.7rem 1rem; margin:0.3rem 0 0.7rem;
 }
 .narrator-strip {
-    color:#78909C; font-style:italic; border-left:3px solid #1565C0;
+    color:#6B7280; font-style:italic; border-left:3px solid #059669;
     padding-left:0.65rem; margin:0.2rem 0 0.45rem;
-    font-size:0.83rem; line-height:1.6;
+    font-size:0.84rem; line-height:1.6;
 }
-.english-block { color:#E8EAF6; line-height:1.8; font-size:0.92rem; margin-bottom:0.5rem; }
+.english-block { color:#374151; line-height:1.85; font-size:0.93rem; margin-bottom:0.5rem; }
 .urdu-block {
     direction:rtl; font-family:'Amiri','Noto Nastaliq Urdu',serif;
-    font-size:1.05rem; color:#B3E5FC; line-height:2.2; text-align:right;
-    background:rgba(25,118,210,0.05); border-radius:6px;
-    padding:0.4rem 0.8rem; margin:0.3rem 0 0.4rem;
+    font-size:1.05rem; color:#374151; line-height:2.3; text-align:right;
+    background:#F9FAFB; border-radius:8px;
+    padding:0.5rem 0.9rem; margin:0.3rem 0 0.4rem;
 }
 
+/* ─── SIDEBAR COMPONENTS ─── */
 .sb-title {
-    color:#FFC107; font-size:0.78rem; font-weight:700;
-    text-transform:uppercase; letter-spacing:1px;
-    border-bottom:1px solid #1565C0; padding-bottom:0.3rem; margin-bottom:0.5rem;
+    color:#059669; font-size:0.73rem; font-weight:700;
+    text-transform:uppercase; letter-spacing:1.3px;
+    border-bottom:1.5px solid #D1FAE5; padding-bottom:0.3rem; margin-bottom:0.55rem;
 }
 .stat-card {
-    background:rgba(25,118,210,0.1); border:1px solid #2196F3;
-    border-radius:8px; padding:0.5rem 0.7rem; margin-bottom:0.65rem; text-align:center;
+    background:#F0FDF4; border:1px solid #A7F3D0;
+    border-radius:10px; padding:0.6rem 0.8rem; margin-bottom:0.6rem; text-align:center;
 }
-.stat-num { font-size:1.5rem; font-weight:700; color:#FFC107; display:block; line-height:1.2; }
-.stat-lbl { color:#90CAF9; font-size:0.72rem; }
+.stat-num { font-size:1.6rem; font-weight:800; color:#059669; display:block; line-height:1.2; }
+.stat-lbl { color:#6B7280; font-size:0.73rem; }
 
 .stSidebar .stButton > button {
-    background:rgba(13,71,161,0.18) !important; color:#B3E5FC !important;
-    border:1px solid #1565C0 !important; border-radius:6px !important;
-    text-align:left !important; font-size:0.77rem !important;
-    padding:0.32rem 0.55rem !important; width:100% !important;
-    margin-bottom:3px !important; white-space:normal !important;
-    height:auto !important; line-height:1.4 !important;
+    background:#F9FAFB !important; color:#374151 !important;
+    border:1px solid #E5E7EB !important; border-radius:8px !important;
+    text-align:left !important; font-size:0.8rem !important;
+    padding:0.4rem 0.65rem !important; width:100% !important;
+    margin-bottom:4px !important; white-space:normal !important;
+    height:auto !important; line-height:1.45 !important;
 }
 .stSidebar .stButton > button:hover {
-    background:rgba(13,71,161,0.48) !important;
-    border-color:#FFC107 !important; color:#FFF9C4 !important;
+    background:#ECFDF5 !important;
+    border-color:#059669 !important; color:#065F46 !important;
 }
 
-.footer-wrap {
-    background:rgba(25,118,210,0.06); border:1px solid #1565C0;
-    border-radius:10px; padding:1rem 1.5rem; text-align:center; margin-top:2rem;
+/* ─── FORM ELEMENTS ─── */
+.stTextInput input {
+    background:#FFFFFF !important;
+    border:1.5px solid #D1D5DB !important;
+    border-radius:10px !important;
+    color:#1F2937 !important;
+    font-size:1rem !important;
 }
-.footer-title { color:#90CAF9; font-size:0.85rem; font-weight:700; margin-bottom:0.2rem; }
-.footer-sub { color:#546E7A; font-size:0.75rem; margin-bottom:0.6rem; }
-.footer-disclaimer { color:#546E7A; font-size:0.72rem; margin-bottom:0.6rem; font-style:italic; }
+.stTextInput input:focus {
+    border-color:#059669 !important;
+    box-shadow:0 0 0 3px rgba(5,150,105,0.08) !important;
+}
+.stTextInput input::placeholder { color:#9CA3AF !important; }
+
+button[kind="primaryFormSubmit"],
+button[data-testid="baseButton-primary"] {
+    background: linear-gradient(135deg, #34D399 0%, #10B981 100%) !important;
+    border-color: #10B981 !important;
+    color: #FFFFFF !important;
+    border-radius: 10px !important;
+    font-weight: 700 !important;
+    box-shadow: 0 2px 8px rgba(16,185,129,0.25) !important;
+    letter-spacing: 0.3px !important;
+}
+button[kind="primaryFormSubmit"]:hover,
+button[data-testid="baseButton-primary"]:hover {
+    background: linear-gradient(135deg, #6EE7B7 0%, #34D399 100%) !important;
+    border-color: #34D399 !important;
+    box-shadow: 0 4px 14px rgba(52,211,153,0.35) !important;
+}
+
+.stSelectbox > div > div {
+    background:#FFFFFF !important;
+    border:1.5px solid #D1D5DB !important;
+    border-radius:8px !important;
+    color:#1F2937 !important;
+}
+
+hr { border-color:#E5E7EB !important; }
+
+/* ─── FOOTER ─── */
+.footer-wrap {
+    background:#FFFFFF; border:1px solid #E5E7EB;
+    border-radius:12px; padding:1.3rem 1.5rem; text-align:center; margin-top:2.5rem;
+    box-shadow:0 1px 4px rgba(0,0,0,0.04);
+}
+.footer-title { color:#1F2937; font-size:0.9rem; font-weight:700; margin-bottom:0.25rem; }
+.footer-sub { color:#6B7280; font-size:0.78rem; margin-bottom:0.5rem; }
+.footer-disclaimer { color:#9CA3AF; font-size:0.73rem; margin-bottom:0.6rem; font-style:italic; }
 .footer-links a {
-    color:#FFC107; text-decoration:none; font-size:0.78rem;
+    color:#059669; text-decoration:none; font-size:0.8rem;
     font-weight:600; margin:0 0.5rem;
 }
-.footer-links a:hover { text-decoration:underline; color:#FFD54F; }
+.footer-links a:hover { text-decoration:underline; color:#047857; }
+
+/* ─── SCROLLBAR ─── */
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:#F9FAFB; }
+::-webkit-scrollbar-thumb { background:#D1D5DB; border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:#9CA3AF; }
 </style>
 """,
     unsafe_allow_html=True,
@@ -330,6 +427,33 @@ IMPORTANT:
 - ALWAYS include Arabic matan — this is non-negotiable\
 """
 
+TRANSLATE_SYSTEM_PROMPT = """\
+You are a search query translator.
+
+Your ONLY job: Convert Urdu or Roman Urdu queries into concise English search queries.
+
+Rules:
+- If input is Roman Urdu (e.g. "naya kapra pehnny ki dua") → translate to English ("dua for wearing new clothes")
+- If input is Urdu script (e.g. "نماز کی اہمیت") → translate to English ("importance of prayer")
+- If input is already English → return it exactly as-is, no changes
+- Output ONLY the translated query — no explanation, no punctuation, no extra words
+- Keep it under 10 words
+- Focus on the Islamic/Hadith topic being asked about
+
+Examples:
+Input: "naya kapra pehnny ki bukhari my konci dua ai h"
+Output: dua for wearing new clothes
+
+Input: "sabr ki hadith"
+Output: hadith about patience
+
+Input: "What did Prophet say about honesty"
+Output: What did Prophet say about honesty
+
+Input: "wudu ka tarika"
+Output: method of performing wudu ablution\
+"""
+
 
 # ── Resource loading ───────────────────────────────────────────────────────────
 @st.cache_resource(show_spinner=False)
@@ -349,6 +473,36 @@ def get_groq_client():
     if not api_key:
         return None
     return Groq(api_key=api_key)
+
+
+# ── Translation helper ─────────────────────────────────────────────────────────
+def translate_query_to_english(query: str, client) -> tuple[str, bool]:
+    """
+    Roman Urdu / Urdu queries ko English mein translate karo for better FAISS search.
+    Returns: (translated_query, was_translated)
+    """
+    if client is None:
+        return query, False
+
+    try:
+        resp = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[
+                {"role": "system", "content": TRANSLATE_SYSTEM_PROMPT},
+                {"role": "user", "content": query},
+            ],
+            max_tokens=30,
+            temperature=0.1,
+        )
+        translated = resp.choices[0].message.content.strip()
+
+        # Agar translated aur original same hain toh translation nahi hui
+        was_translated = translated.lower() != query.lower()
+        return translated, was_translated
+
+    except Exception:
+        # Translation fail ho toh original query use karo — app crash na ho
+        return query, False
 
 
 # ── RAG helpers ────────────────────────────────────────────────────────────────
@@ -474,7 +628,7 @@ def render_hadith_card(h):
 
 # ── Main ───────────────────────────────────────────────────────────────────────
 def main():
-    # Guard: ensure data files present (local or download from HuggingFace)
+    # Guard: ensure data files present
     if not (DATA_DIR / "hadith_index.faiss").exists():
         with st.spinner("⏳ First launch: downloading Hadith database (~180 MB) — ~2 minutes…"):
             if not ensure_data_files():
@@ -512,6 +666,17 @@ def main():
 
     # ── SIDEBAR ───────────────────────────────────────────────────────────────
     with st.sidebar:
+        st.markdown(
+            """
+<div style="text-align:center;padding:1.1rem 0 0.9rem;border-bottom:1.5px solid #D1FAE5;margin-bottom:1.1rem;">
+    <div style="font-size:2.4rem;line-height:1;">☪️</div>
+    <div style="font-size:0.8rem;font-weight:700;color:#059669;text-transform:uppercase;
+                letter-spacing:1.2px;margin-top:0.35rem;">Hadith Search</div>
+    <div style="font-size:0.68rem;color:#9CA3AF;margin-top:0.1rem;">Sihah Sitta · AI-Powered</div>
+</div>
+""",
+            unsafe_allow_html=True,
+        )
         st.markdown('<div class="sb-title">📊 Database</div>', unsafe_allow_html=True)
         st.markdown(
             f'<div class="stat-card"><span class="stat-num">{total_hadith:,}</span>'
@@ -552,24 +717,20 @@ def main():
                 st.rerun()
 
     # ── SEARCH ────────────────────────────────────────────────────────────────
-    # Pick up example question if sidebar button was clicked
     example_q = st.session_state.pop("_example_q", None)
-
-    # What to show in the text box: example click → that question; otherwise last searched query
     form_default = example_q if example_q else st.session_state.get("_current_query", "")
 
     st.markdown('<div class="search-wrap">', unsafe_allow_html=True)
     st.markdown(
-        '<div class="search-label">🔍 Ask about any Hadith in English or Urdu</div>',
+        '<div class="search-label">🔍 Ask about any Hadith in English, Urdu, or Roman Urdu</div>',
         unsafe_allow_html=True,
     )
 
-    # st.form captures button + text_input atomically — no state-loss across reruns
     with st.form("search_form", clear_on_submit=False):
         typed = st.text_input(
             "query",
             value=form_default,
-            placeholder="e.g. 'Hadith about patience' or 'نماز کی اہمیت'",
+            placeholder="e.g. 'naya kapra pehnny ki dua' or 'Hadith about patience' or 'نماز کی اہمیت'",
             label_visibility="collapsed",
         )
         c1, c2 = st.columns([6, 1])
@@ -582,7 +743,7 @@ def main():
 
     # Handle Clear
     if cleared:
-        for k in ("_current_query", "_last_results", "_last_answer"):
+        for k in ("_current_query", "_last_results", "_last_answer", "_translated_query", "_was_translated"):
             st.session_state.pop(k, None)
         st.rerun()
 
@@ -591,24 +752,33 @@ def main():
     if submitted and typed.strip():
         run_query = typed.strip()
         st.session_state["_current_query"] = run_query
-        # Clear old results so we don't show stale data while spinner runs
         st.session_state.pop("_last_results", None)
         st.session_state.pop("_last_answer", None)
+        st.session_state.pop("_translated_query", None)
+        st.session_state.pop("_was_translated", None)
     elif example_q:
-        # Sidebar example was clicked → auto-search without waiting for form submit
         run_query = example_q
         st.session_state["_current_query"] = run_query
         st.session_state.pop("_last_results", None)
         st.session_state.pop("_last_answer", None)
+        st.session_state.pop("_translated_query", None)
+        st.session_state.pop("_was_translated", None)
 
-    # Execute search
+    # ── EXECUTE SEARCH WITH TRANSLATION ───────────────────────────────────────
     if run_query:
         col_filter = selected_collections if selected_collections else None
+
+        with st.spinner("🔄 Processing your query…"):
+            # Step 1: Translate Roman Urdu / Urdu → English for FAISS
+            search_query, was_translated = translate_query_to_english(run_query, groq_client)
+            st.session_state["_translated_query"] = search_query
+            st.session_state["_was_translated"] = was_translated
 
         with st.spinner("🔍 Searching across Sihah Sitta…"):
             try:
                 results = search_hadiths(
-                    run_query, embed_model, faiss_index, metadata,
+                    search_query,   # ← translated English query for FAISS
+                    embed_model, faiss_index, metadata,
                     k=5,
                     collection_filter=col_filter,
                     grade_filter=grade_filter,
@@ -623,6 +793,7 @@ def main():
             context = build_context(results)
             with st.spinner("🤖 Generating scholarly answer…"):
                 try:
+                    # AI ko original user query bhejo (Urdu/Roman Urdu mein jawab dega)
                     answer = generate_answer(groq_client, run_query, context)
                     st.session_state["_last_answer"] = answer
                 except Exception as e:
@@ -634,11 +805,24 @@ def main():
             st.session_state["_last_answer"] = None
 
     # ── DISPLAY RESULTS ───────────────────────────────────────────────────────
-    last_results = st.session_state.get("_last_results")
-    last_answer = st.session_state.get("_last_answer")
-    last_query = st.session_state.get("_current_query", "")
+    last_results    = st.session_state.get("_last_results")
+    last_answer     = st.session_state.get("_last_answer")
+    last_query      = st.session_state.get("_current_query", "")
+    translated_q    = st.session_state.get("_translated_query", "")
+    was_translated  = st.session_state.get("_was_translated", False)
 
     if last_results is not None:
+
+        # Show translation notice if query was translated
+        if was_translated and translated_q and translated_q.lower() != last_query.lower():
+            st.markdown(
+                f'<div class="translation-notice">'
+                f'🔄 <strong>Query translated:</strong> "{html_module.escape(last_query)}" '
+                f'→ searched as "<strong>{html_module.escape(translated_q)}</strong>" for better results'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
+
         if not last_results:
             st.warning(
                 "No hadith found for your query and current filters.  \n"
@@ -655,15 +839,15 @@ def main():
                 f"**📖 Source Hadith — {len(last_results)} retrieved**"
                 + (f' *(query: "{last_query}")*' if last_query else "")
             )
-            st.markdown('<hr style="border-color:#1565C0;margin:0.4rem 0 0.8rem">', unsafe_allow_html=True)
+            st.markdown('<hr style="border-color:#E5E7EB;margin:0.4rem 0 0.8rem">', unsafe_allow_html=True)
             for h in last_results:
                 render_hadith_card(h)
     else:
-        # Nothing searched yet — simple prompt
         st.markdown("<br>", unsafe_allow_html=True)
         st.info(
             "👆 Type your question above and click **Ask AI 🤖**, "
-            "or pick an example question from the sidebar."
+            "or pick an example question from the sidebar.\n\n"
+            "✅ You can ask in **English**, **Urdu (اردو)**, or **Roman Urdu** — all supported!"
         )
 
     # ── FOOTER ────────────────────────────────────────────────────────────────
