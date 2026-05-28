@@ -496,12 +496,10 @@ def translate_query_to_english(query: str, client) -> tuple[str, bool]:
         )
         translated = resp.choices[0].message.content.strip()
 
-        # Agar translated aur original same hain toh translation nahi hui
         was_translated = translated.lower() != query.lower()
         return translated, was_translated
 
     except Exception:
-        # Translation fail ho toh original query use karo — app crash na ho
         return query, False
 
 
@@ -793,7 +791,6 @@ def main():
             context = build_context(results)
             with st.spinner("🤖 Generating scholarly answer…"):
                 try:
-                    # AI ko original user query bhejo (Urdu/Roman Urdu mein jawab dega)
                     answer = generate_answer(groq_client, run_query, context)
                     st.session_state["_last_answer"] = answer
                 except Exception as e:
